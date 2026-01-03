@@ -4,7 +4,6 @@ This public repository contains the necessary resources for the Passage Ranking 
 
 ## Contents
 - `INSTRUCTIONS.md`: Step-by-step student guide.
-- `PROMPT.md`: Project context (required for LLM disclosure).
 - `starter_notebook.ipynb`: A ready-to-use notebook to get you started.
 - `requirements.txt`: Python dependencies.
 
