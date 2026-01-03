@@ -38,53 +38,15 @@ id,expected
     ```
 
 ### 3. Generate Your First Submission (Random Baseline)
-Since baseline implementations are secret, you should start by creating a simple random submission to verify your pipeline. Copy the following code into a cell in your notebook:
+Instead of writing code from scratch, we have provided a ready-to-use notebook.
 
-```python
-import pandas as pd
-import random
-import os
+1.  Open `starter_notebook.ipynb` from the file list.
+2.  **Run All Cells**: This notebook will automatically:
+    *   Install all necessary dependencies.
+    *   Load the dataset (detecting if you are on Kaggle or local).
+    *   Generate a **Random Baseline** and save it to `submission_files/submission_random.csv`.
 
-# 1. Define Paths (Kaggle or Local)
-# On Kaggle, dataset is usually at /kaggle/input/your-dataset-name/
-# Just in case, check where files are:
-if os.path.exists("/kaggle/input"):
-    # START HERE: Adapting paths!
-    # You might need to adjust "aiml-hackathon-2526" to your actual dataset directory name
-    DATA_DIR = "/kaggle/input/aiml-hackathon-2526/msmarco_sampled" 
-    TEST_FILE = "/kaggle/input/aiml-hackathon-2526/test.csv"
-else:
-    # Local fallback
-    DATA_DIR = "msmarco_sampled"
-    TEST_FILE = "test.csv"
-
-print(f"Using Data Dir: {DATA_DIR}")
-
-# 2. Load Queries and Collection
-test_queries = pd.read_csv(TEST_FILE)
-collection = pd.read_parquet(f"{DATA_DIR}/collection.parquet")
-all_pids = collection['pid'].astype(str).tolist()
-
-print(f"Loaded {len(test_queries)} queries and {len(all_pids)} passages.")
-
-# 3. Generate Random Rankings
-results = []
-for qid in test_queries['id']:
-    # Randomly sample 10 PIDs from the collection
-    ranked_pids = random.sample(all_pids, 10)
-    results.append({
-        'id': str(qid),
-        'expected': " ".join(ranked_pids)
-    })
-
-# 4. Save Submission
-os.makedirs("submission_files", exist_ok=True)
-submission = pd.DataFrame(results)
-submission.to_csv("submission_files/submission_random.csv", index=False)
-print("Created submission_files/submission_random.csv with", len(submission), "rows.")
-```
-
-Run this cell. It will create a valid (but poor performing) generic submission file.
+*Note: You can verify the output in the `submission_files` directory.*
 
 ### 4. Submit to Leaderboard
 1.  In the Output file browser (right sidebar), find `submission_files`.
