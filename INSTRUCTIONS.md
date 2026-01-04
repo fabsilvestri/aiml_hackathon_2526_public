@@ -29,12 +29,10 @@ id,expected
 
 ### 2. Setup Kaggle Notebook
 1.  **New Notebook**: Click "Code" -> "New Notebook".
-2.  **Add Data**: Click "Add Input" -> Search for the competition dataset (e.g., `aiml-hackathon-2526-data` or similar provided name). Add it.
-3.  **Clone Repository**: In the first cell, run:
+2.  **Clone Repository**: In the first cell, run:
     ```python
     !git clone https://github.com/fabsilvestri/aiml_hackathon_2526_public.git
     %cd aiml_hackathon_2526_public
-    !pip install -r requirements.txt
     ```
 
 ### 3. Generate Your First Submission (Random Baseline)
