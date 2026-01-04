@@ -14,10 +14,11 @@ You must submit a CSV file with exactly **4912 rows** (plus header).
 **Example content:**
 ```csv
 id,expected
-1001,70231 23423 52342 8842 1102
-1002,9921 5521 112 334 55
-...
+1001,7264266 515744 7536544 3138019 2171065 1234567 7654321 1111111 2222222 3333333
+1002,9876543 8765432 7654321 6543210 5432109 4321098 3210987 2109876 1098765 9876540
 ```
+
+**⚠️ Important**: Use `expected` (lowercase) in your submission header.
 
 ---
 
