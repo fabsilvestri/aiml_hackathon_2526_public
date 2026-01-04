@@ -29,26 +29,64 @@ id,expected
 
 ### 2. Setup Kaggle Notebook
 1.  **New Notebook**: Click "Code" -> "New Notebook".
-2.  **Clone Repository**: In the first cell, run:
-    ```python
-    !git clone https://github.com/fabsilvestri/aiml_hackathon_2526_public.git
-    %cd aiml_hackathon_2526_public
-    ```
+2.  Copy the code cells below into your notebook.
 
 ### 3. Generate Your First Submission (Random Baseline)
-Instead of writing code from scratch, we have provided a ready-to-use notebook.
 
-1.  Open `starter_notebook.ipynb` from the file list.
-2.  **Run All Cells**: This notebook will automatically:
-    *   Install all necessary dependencies.
-    *   Load the dataset (detecting if you are on Kaggle or local).
-    *   Generate a **Random Baseline** and save it to `submission_files/submission_random.csv`.
+Copy and run the following cells in your Kaggle notebook:
 
-*Note: You can verify the output in the `submission_files` directory.*
+**Cell 1: Install Dependencies**
+```python
+!pip install torch transformers sentence-transformers scikit-learn pandas numpy tqdm rank_bm25 pyarrow -q
+```
+
+**Cell 2: Download Dataset**
+```python
+import os
+import zipfile
+import urllib.request
+
+DATASET_URL = "https://github.com/fabsilvestri/aiml_hackathon_data/releases/download/v1.0/kaggle_data.zip"
+DATA_DIR = "data"
+
+print("Downloading dataset...")
+urllib.request.urlretrieve(DATASET_URL, "kaggle_data.zip")
+os.makedirs(DATA_DIR, exist_ok=True)
+with zipfile.ZipFile("kaggle_data.zip", "r") as zf:
+    zf.extractall(DATA_DIR)
+os.remove("kaggle_data.zip")
+print("Dataset ready!")
+```
+
+**Cell 3: Load Data**
+```python
+import pandas as pd
+import random
+
+test_queries = pd.read_csv(f"{DATA_DIR}/test.csv")
+collection = pd.read_parquet(f"{DATA_DIR}/collection.parquet")
+all_pids = collection["pid"].astype(str).tolist()
+
+print(f"Loaded {len(test_queries)} test queries and {len(all_pids)} passages.")
+```
+
+**Cell 4: Generate Random Baseline**
+```python
+results = []
+for qid in test_queries["id"]:
+    ranked_pids = random.sample(all_pids, 10)
+    results.append({"id": str(qid), "expected": " ".join(ranked_pids)})
+
+submission = pd.DataFrame(results)
+submission.to_csv("submission.csv", index=False)
+print(f"Created submission.csv with {len(submission)} rows.")
+```
+
+**Output:** `submission.csv` is ready for upload!
 
 ### 4. Submit to Leaderboard
-1.  In the Output file browser (right sidebar), find `submission_files`.
-2.  Download `submission_random.csv` (or your own file).
+1.  In the notebook output or file browser, find `submission.csv`.
+2.  Download the file.
 3.  Go to the Competition Page -> **Submit Predictions**.
 4.  Upload the file.
 5.  Check your score on the **Public Leaderboard**.
